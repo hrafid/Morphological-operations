@@ -1,0 +1,64 @@
+import cv2
+
+import numpy as np
+
+#opening
+
+read_img_dir =   #input image directory
+
+read_img = cv2.imread(read_img_dir)
+
+img = cv2.cvtColor(read_img, cv2.COLOR_BGR2GRAY)  # GRAYSCALE format
+
+ret,thresh1 = cv2.threshold(img,0,255,cv2.THRESH_BINARY)  # binary format
+
+kernel = np.ones((20,20),np.uint8)
+    
+mask = cv2.morphologyEx(thresh1, cv2.MORPH_OPEN, kernel)  # apply opening
+
+result = cv2.bitwise_and(img, mask) # merge the image with mask
+
+stack = np.hstack((img,thresh1))
+
+st = np.hstack((stack,mask))
+
+s = np.hstack((st,result))
+
+cv2.imwrite() #output image directory
+
+
+
+#closing
+
+image = cv2.imread(path,0) 
+kernel = np.ones((5,5),np.uint8)
+closing = cv2.morphologyEx(image, cv2.MORPH_CLOSE, kernel)
+
+
+#erosion
+
+kernel = np.ones((5,5),np.uint8)
+erosion = cv2.erode(img,kernel,iterations = 1)
+
+
+#dilation
+
+kernel = np.ones((5,5),np.uint8)
+mask_dilate = cv2.dilate(mask_open,kernel,iterations = 1)
+
+
+#tophat
+
+filterSize =(3, 3)
+kernel = cv2.getStructuringElement(cv2.MORPH_RECT, filterSize)
+tophat_img = cv2.morphologyEx(img,cv2.MORPH_TOPHAT,kernel)
+
+
+#blackhat
+
+filterSize =(3, 3)
+
+kernel = cv2.getStructuringElement(cv2.MORPH_RECT,filterSize)
+  
+img2 = cv2.morphologyEx(image, cv2.MORPH_BLACKHAT, kernel)
+
